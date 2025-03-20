@@ -1,7 +1,17 @@
-import React from 'react';
+// src/components/TestimonialSettings.js
+import React, { useState } from 'react';
 import ColorPicker from './ColorPicker';
+import GradientGenerator from './GradientGenerator';
 
 function TestimonialSettings({ settings, handleInputChange, handleImageUpload, handleRemoveImage, updateSettings }) {
+  const [backgroundType, setBackgroundType] = useState(settings.backgroundType || 'solid');
+  
+  // Handle background type change
+  const handleBackgroundTypeChange = (type) => {
+    setBackgroundType(type);
+    updateSettings('backgroundType', type);
+  };
+  
   return (
     <>
       {/* Partner Name */}
@@ -121,14 +131,50 @@ function TestimonialSettings({ settings, handleInputChange, handleImageUpload, h
         />
       </div>
       
-      {/* Background Color */}
+      {/* Background Type Selector */}
       <div className="mb-5">
-        <label className="block mb-2 font-medium">Background Color</label>
-        <ColorPicker 
-          color={settings.backgroundColor || '#f0f5fa'} 
-          onChange={(color) => updateSettings('backgroundColor', color)} 
-        />
+        <label className="block mb-2 font-medium">Background Type</label>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center space-x-2">
+            <input
+              type="radio"
+              id="bg-solid"
+              checked={backgroundType === 'solid'}
+              onChange={() => handleBackgroundTypeChange('solid')}
+              className="text-blue-600"
+            />
+            <label htmlFor="bg-solid">Solid Color</label>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <input
+              type="radio"
+              id="bg-gradient"
+              checked={backgroundType === 'gradient'}
+              onChange={() => handleBackgroundTypeChange('gradient')}
+              className="text-blue-600"
+            />
+            <label htmlFor="bg-gradient">Smart Gradient</label>
+          </div>
+        </div>
       </div>
+      
+      {/* Background Settings based on type */}
+      {backgroundType === 'solid' ? (
+        <div className="mb-5">
+          <label className="block mb-2 font-medium">Background Color</label>
+          <ColorPicker 
+            color={settings.backgroundColor || '#f0f5fa'} 
+            onChange={(color) => updateSettings('backgroundColor', color)} 
+          />
+        </div>
+      ) : (
+        <GradientGenerator 
+          colorPalette={settings.colorPalette} 
+          settings={settings} 
+          updateSettings={updateSettings} 
+        />
+      )}
       
       {/* Accent Color (Quote Box) */}
       <div className="mb-5">

@@ -1,10 +1,12 @@
 // src/components/templatePresets.js
-// Template presets with explicit color palettes
+// Template presets with explicit color palettes and background settings
 const templatePresets = {
   standard: {
     companyName: 'Apple',
     ownerAccountImage: null,
     backgroundImage: null,
+    backgroundGalleryImage: 'abstract-1', // Default gallery image ID
+    backgroundType: 'gallery', // 'gallery', 'upload', or 'color'
     aspectRatio: 'landscape', // Default aspect ratio for standard template
     
     // Color palette - explicitly defined
@@ -59,8 +61,17 @@ const templatePresets = {
       accent: '#2b5c8e'     // Medium blue accent
     },
     
-    // Explicit background color for the template
+    // Background settings
+    backgroundType: 'solid', // 'solid' or 'gradient'
     backgroundColor: '#f0f5fa',
+    
+    // Gradient settings (for when backgroundType is 'gradient')
+    gradientType: 'linear',
+    gradientDirection: '135deg',
+    gradientStops: [
+      { color: '#f0f5fa', position: 0 },
+      { color: '#dae7f2', position: 100 }
+    ],
     
     // Font settings
     primaryFont: 'Arial, sans-serif',

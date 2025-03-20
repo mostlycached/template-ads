@@ -51,12 +51,6 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
     backgroundPosition: 'center',
   };
   
-  // Console log for debugging
-  console.log('Current template:', currentTemplate);
-  console.log('Palette background:', palette.background);
-  console.log('Settings background:', settings.backgroundColor);
-  console.log('Final background color being used:', backgroundColor);
-  
   // Font settings for preview text
   const primaryFont = settings.primaryFont || 'Arial, sans-serif';
   

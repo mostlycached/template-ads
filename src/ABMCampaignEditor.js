@@ -40,8 +40,6 @@ function ABMCampaignEditor() {
 
   function switchTemplate(templateName) {
     if (templatePresets[templateName]) {
-      console.log(`Switching to template: ${templateName}`);
-      
       // Save common settings to preserve
       const commonSettings = {
         companyName: templateSettings.companyName,
@@ -52,9 +50,7 @@ function ABMCampaignEditor() {
       };
       
       // Start with a fresh copy of the template preset
-      const newSettings = { ...templatePresets[templateName] };
-      console.log('New template preset:', newSettings);
-      
+      const newSettings = { ...templatePresets[templateName] };   
       // Apply common settings
       Object.keys(commonSettings).forEach(key => {
         if (commonSettings[key] !== undefined) {
@@ -64,20 +60,16 @@ function ABMCampaignEditor() {
       
       // Ensure color palette exists
       if (!newSettings.colorPalette) {
-        console.log('No color palette in new template, using default');
         newSettings.colorPalette = DEFAULT_COLOR_PALETTE;
       }
       
       setCurrentTemplate(templateName);
       setTemplateSettings(newSettings);
       
-      console.log('Final settings after switch:', newSettings);
     }
   }
 
-  function resetTemplate() {
-    console.log('Resetting template to defaults');
-    
+  function resetTemplate() {    
     // Preserve only essential settings
     const companyName = templateSettings.companyName;
     const ownerAccountImage = templateSettings.ownerAccountImage;
@@ -95,7 +87,6 @@ function ABMCampaignEditor() {
     }
     
     setTemplateSettings(newSettings);
-    console.log('Template reset complete');
   }
 
   function handleImageUpload(e, imageType) {
@@ -128,7 +119,6 @@ function ABMCampaignEditor() {
   // Effect to update UI when template changes
   useEffect(() => {
     console.log(`Template changed to: ${currentTemplate}`);
-    console.log('Current settings:', templateSettings);
   }, [currentTemplate, templateSettings]);
 
   return (

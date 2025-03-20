@@ -11,8 +11,32 @@ function StandardTemplate({ settings, processTemplate }) {
   // Extract color palette with fallback
   const palette = settings.colorPalette || {};
   
-  // IMPORTANT: Changed priority order - palette takes precedence
-  // Use palette values first, then specific overrides, then defaults
+  // Determine background type and style
+  const backgroundType = settings.backgroundType || 'gallery';
+  let backgroundStyle = {};
+  
+  if (backgroundType === 'gallery' || backgroundType === 'upload') {
+    // Image background
+    if (settings.backgroundImage) {
+      backgroundStyle = {
+        backgroundImage: `url(${settings.backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      };
+    } else {
+      // Fallback to color if no image
+      backgroundStyle = {
+        backgroundColor: palette.background || '#000000'
+      };
+    }
+  } else if (backgroundType === 'color') {
+    // Solid color background
+    backgroundStyle = {
+      backgroundColor: settings.backgroundColor || palette.background || '#000000'
+    };
+  }
+  
+  // Colors
   const headerColor = palette.text || settings.headerColor || DEFAULT_COLORS.text;
   const buttonBgColor = palette.button || settings.buttonBackgroundColor || DEFAULT_COLORS.button;
   const buttonTextColor = settings.buttonTextColor || '#FFFFFF';
@@ -26,7 +50,10 @@ function StandardTemplate({ settings, processTemplate }) {
   const buttonFont = settings.buttonFont || secondaryFont;
   
   return (
-    <>
+    <div 
+      className="h-full flex flex-col p-5"
+      style={backgroundStyle}
+    >
       <div className="flex justify-between items-start">
         {/* Logo area */}
         <div className="text-2xl font-bold" style={{ fontFamily: primaryFont }}>
@@ -49,7 +76,8 @@ function StandardTemplate({ settings, processTemplate }) {
           className="text-2xl mb-5"
           style={{ 
             color: headerColor,
-            fontFamily: headerFont
+            fontFamily: headerFont,
+            textShadow: '0 1px 3px rgba(0,0,0,0.3)'
           }}
         >
           {processTemplate(settings.header)}
@@ -66,7 +94,7 @@ function StandardTemplate({ settings, processTemplate }) {
           {settings.ctaText}
         </button>
       </div>
-    </>
+    </div>
   );
 }
 
