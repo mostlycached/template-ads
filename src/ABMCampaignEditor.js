@@ -40,23 +40,26 @@ function ABMCampaignEditor() {
 
   function switchTemplate(templateName) {
     if (templatePresets[templateName]) {
-      // Save common settings to preserve
-      const commonSettings = {
-        companyName: templateSettings.companyName,
+      // Define a minimal set of common settings to preserve across templates
+      // Only settings that should be preserved across ALL template types
+      const minimalCommonSettings = {
         aspectRatio: templateSettings.aspectRatio,
-        ownerAccountImage: templateSettings.ownerAccountImage,
         primaryFont: templateSettings.primaryFont,
         secondaryFont: templateSettings.secondaryFont
       };
       
-      // Start with a fresh copy of the template preset
-      const newSettings = { ...templatePresets[templateName] };   
-      // Apply common settings
-      Object.keys(commonSettings).forEach(key => {
-        if (commonSettings[key] !== undefined) {
-          newSettings[key] = commonSettings[key];
+      // Start with a completely fresh copy of the template preset
+      const newSettings = JSON.parse(JSON.stringify(templatePresets[templateName]));
+      
+      // Apply only the minimal common settings
+      Object.keys(minimalCommonSettings).forEach(key => {
+        if (minimalCommonSettings[key] !== undefined) {
+          newSettings[key] = minimalCommonSettings[key];
         }
       });
+      
+      // DO NOT preserve companyName - Each template should use its own default
+      // DO NOT preserve ownerAccountImage - Each template should use its own default
       
       // Ensure color palette exists
       if (!newSettings.colorPalette) {
@@ -65,7 +68,6 @@ function ABMCampaignEditor() {
       
       setCurrentTemplate(templateName);
       setTemplateSettings(newSettings);
-      
     }
   }
 
@@ -140,6 +142,7 @@ function ABMCampaignEditor() {
           currentTemplate={currentTemplate}
           processTemplate={processTemplate}
           aspectRatio={currentRatio}
+          updateSettings={updateSettings}
         />
       </div>
     </div>

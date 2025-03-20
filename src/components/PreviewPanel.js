@@ -3,6 +3,7 @@ import React from 'react';
 import StandardTemplate from './StandardTemplate';
 import TestimonialTemplate from './TestimonialTemplate';
 import EventTemplate from './EventTemplate';
+import { ASPECT_RATIOS } from './AspectRatioSelector';
 
 // Template-specific default background colors as fallbacks
 const TEMPLATE_DEFAULT_BACKGROUNDS = {
@@ -11,7 +12,7 @@ const TEMPLATE_DEFAULT_BACKGROUNDS = {
   event: '#0a2240'        // Dark blue background for event
 };
 
-function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio }) {
+function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio, updateSettings }) {
   // Extract color palette with fallback
   const palette = settings.colorPalette || {};
   
@@ -35,7 +36,6 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
     flexDirection: 'column'
   };
 
-  // IMPORTANT: Changed priority order - palette takes precedence
   // Priority: 1. Palette background, 2. Explicit backgroundColor setting, 3. Template default, 4. Generic fallback
   const backgroundColor = 
     palette.background || 
@@ -54,14 +54,29 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
   // Font settings for preview text
   const primaryFont = settings.primaryFont || 'Arial, sans-serif';
   
+  // Handler for aspect ratio change
+  const handleAspectRatioChange = (e) => {
+    const selectedRatio = e.target.value;
+    updateSettings('aspectRatio', selectedRatio);
+  };
+  
   return (
     <div className="flex-1 p-5 flex flex-col">
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-lg font-semibold">Preview</h2>
         <div className="flex items-center gap-2">
-          <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-sm">
-            {aspectRatio.label}
-          </div>
+          {/* Aspect Ratio Dropdown */}
+          <select
+            value={settings.aspectRatio || 'landscape'}
+            onChange={handleAspectRatioChange}
+            className="py-1 px-2 border border-gray-300 rounded text-sm"
+          >
+            {Object.entries(ASPECT_RATIOS).map(([key, ratio]) => (
+              <option key={key} value={key}>
+                {ratio.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       
@@ -127,7 +142,7 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
         </div>
         
         <div className="text-xs mt-3 text-center text-gray-500">
-          Preview: {currentTemplate.charAt(0).toUpperCase() + currentTemplate.slice(1)} Template | {aspectRatio.value}
+          Preview: {currentTemplate.charAt(0).toUpperCase() + currentTemplate.slice(1)} Template
         </div>
         
       </div>

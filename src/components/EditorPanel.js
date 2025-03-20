@@ -55,21 +55,12 @@ function EditorPanel({
         <div className="mb-8">
           <h2 className="text-lg font-semibold mb-5">Creative Content</h2>
           
-          {/* Company Name - show for all templates */}
-          <div className="mb-5">
-            <label className="block mb-2 font-medium">Company Name</label>
-            <input 
-              type="text" 
-              value={settings.companyName || ''} 
-              onChange={(e) => handleInputChange(e, 'companyName')}
-              placeholder="Enter company name"
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
+          {/* ABM Name - show for all templates */}
+          
           
           {/* Company Logo - show for all templates */}
           <div className="mb-5">
-            <label className="block mb-2 font-medium">Company Logo</label>
+            <label className="block mb-2 font-medium">Logo</label>
             <div className="relative">
               <input 
                 type="file" 
@@ -82,6 +73,18 @@ function EditorPanel({
                 <span>⬆️</span> Upload Company Logo
               </label>
             </div>
+            {settings.companyName && (
+              <div className="mb-5">
+                <label className="block mb-2 font-medium">Company Name</label>
+                <input 
+                  type="text" 
+                  value={settings.companyName || ''} 
+                  onChange={(e) => handleInputChange(e, 'companyName')}
+                  placeholder="Enter company name"
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+            )}
             
             {settings.ownerAccountImage && (
               <div className="mt-2">

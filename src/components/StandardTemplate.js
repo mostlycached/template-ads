@@ -57,13 +57,8 @@ function StandardTemplate({ settings, processTemplate }) {
           {settings.ownerAccountImage ? (
             <img src={settings.ownerAccountImage} alt="Logo" className="h-8" />
           ) : (
-            <div>Nextiva</div>
+            <div><span className="text-xl">🍎</span></div>
           )}
-        </div>
-        
-        {/* Company icon */}
-        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-          <span className="text-xl">🍎</span>
         </div>
       </div>
       

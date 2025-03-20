@@ -31,7 +31,6 @@ const templatePresets = {
   },
   
   testimonial: {
-    companyName: 'Amazon',
     partnerName: 'Manatal',
     ownerAccountImage: null,
     partnerImage: null,
@@ -73,7 +72,6 @@ const templatePresets = {
   },
   
   event: {
-    companyName: 'Univar Solutions',
     partnerName: 'Stle',
     ownerAccountImage: null,
     partnerImage: null,

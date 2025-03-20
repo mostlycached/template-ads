@@ -3,38 +3,87 @@ import React, { useState } from 'react';
 import ColorPicker from './ColorPicker';
 
 // Default brand palettes
+// src/components/ColorPaletteManager.js - Updated PRESET_PALETTES
+
 const PRESET_PALETTES = {
-  blue: {
-    primary: '#1a73e8',
-    secondary: '#4285f4',
-    background: '#f8f9fa',
-    text: '#202124',
-    button: '#1a73e8',
-    accent: '#fbbc04'
+  // Modern Gradients Palette - Smooth gradient-friendly colors
+  gradientMint: {
+    primary: '#06D6A0',     // Bright mint
+    secondary: '#1B9AAA',   // Teal blue
+    background: '#F5FBEF',  // Almost white with slight mint tint
+    text: '#2D3047',        // Deep navy
+    button: '#06D6A0',      // Bright mint
+    accent: '#EF476F'       // Bright pink
   },
-  green: {
-    primary: '#0f9d58',
-    secondary: '#34a853',
-    background: '#f1f3f4',
-    text: '#1e1e1e',
-    button: '#0f9d58',
-    accent: '#ea4335'
+
+  // Neon Cyberpunk Palette - Vibrant futuristic feel
+  neonNight: {
+    primary: '#FF2A6D',     // Electric pink
+    secondary: '#D1F7FF',   // Ice blue
+    background: '#05103A',  // Deep space blue
+    text: '#D1F7FF',        // Ice blue
+    button: '#05FFA1',      // Bright neon green
+    accent: '#7678ED'       // Electric purple
   },
-  purple: {
-    primary: '#673ab7',
-    secondary: '#9c27b0',
-    background: '#f3e5f5',
-    text: '#311b92',
-    button: '#673ab7',
-    accent: '#ff9800'
+
+  // Natural Earthy Palette - Organic and calming
+  earthTones: {
+    primary: '#5E6472',     // Slate gray
+    secondary: '#A7C4BC',   // Sage green
+    background: '#F9F5F0',  // Creamy off-white
+    text: '#2D2D2A',        // Almost black
+    button: '#E2C2B3',      // Dusty rose
+    accent: '#BF9D7E'       // Warm tan
   },
-  dark: {
-    primary: '#202124',
-    secondary: '#5f6368',
-    background: '#303134',
-    text: '#e8eaed',
-    button: '#8ab4f8',
-    accent: '#f28b82'
+
+  // Monochromatic Minimal - Clean and elegant
+  monochrome: {
+    primary: '#232323',     // Almost black
+    secondary: '#626262',   // Medium gray
+    background: '#FFFFFF',  // Pure white
+    text: '#232323',        // Almost black
+    button: '#232323',      // Almost black
+    accent: '#DEDEDE'       // Light gray
+  },
+
+  // Bold Pop - Strong and playful
+  boldPop: {
+    primary: '#FF6B6B',     // Coral red
+    secondary: '#4ECDC4',   // Turquoise
+    background: '#FFFFFF',  // White
+    text: '#292F36',        // Charcoal
+    button: '#FF6B6B',      // Coral red
+    accent: '#FFE66D'       // Sunshine yellow
+  },
+
+  // Elegant Dark Mode - Sophisticated night mode
+  elegantDark: {
+    primary: '#BB86FC',     // Lavender
+    secondary: '#03DAC6',   // Teal
+    background: '#121212',  // Dark gray
+    text: '#E1E1E1',        // Near white
+    button: '#BB86FC',      // Lavender
+    accent: '#CF6679'       // Dusky rose
+  },
+  
+  // Pastel Dream - Soft and gentle
+  pastelDream: {
+    primary: '#9896F1',     // Soft purple
+    secondary: '#D59BF6',   // Lavender
+    background: '#EDF7FA',  // Pale blue
+    text: '#525252',        // Dark gray
+    button: '#9896F1',      // Soft purple
+    accent: '#FBC2EB'       // Pink
+  },
+  
+  // Corporate Trust - Professional and reliable
+  corporateTrust: {
+    primary: '#0066FF',     // Trustworthy blue
+    secondary: '#5E81AC',   // Steel blue
+    background: '#FFFFFF',  // White
+    text: '#2E3440',        // Near black
+    button: '#0066FF',      // Trustworthy blue
+    accent: '#ECEFF4'       // Light gray-blue
   }
 };
 
