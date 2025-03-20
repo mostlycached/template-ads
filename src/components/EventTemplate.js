@@ -35,9 +35,9 @@ function EventTemplate({ settings }) {
       {/* Top logos */}
       <div className="flex justify-between items-start mb-8">
         {/* Company logo */}
-        <div className="h-12">
+        <div className="h-16">
           {settings.ownerAccountImage ? (
-            <img src={settings.ownerAccountImage} alt={settings.companyName} className="h-full object-contain" />
+            <img src={settings.ownerAccountImage} className="h-full object-contain" />
           ) : (
             <div className="text-xl font-bold" style={{ fontFamily: primaryFont }}>
               {settings.companyName}
@@ -46,7 +46,7 @@ function EventTemplate({ settings }) {
         </div>
         
         {/* Partner logo */}
-        <div className="h-12">
+        <div className="h-16">
           {settings.partnerImage ? (
             <img src={settings.partnerImage} alt={settings.partnerName} className="h-full object-contain" />
           ) : (

@@ -49,7 +49,7 @@ function TestimonialTemplate({ settings }) {
         {/* Top logos */}
         <div className="flex justify-between items-start p-5">
           {/* Company logo */}
-          <div className="h-12">
+          <div className="h-16">
             {settings.ownerAccountImage ? (
               <img src={settings.ownerAccountImage} alt={settings.companyName} className="h-full object-contain" />
             ) : (
@@ -60,7 +60,7 @@ function TestimonialTemplate({ settings }) {
           </div>
           
           {/* Partner logo */}
-          <div className="h-12">
+          <div className="h-16">
             {settings.partnerImage ? (
               <img src={settings.partnerImage} alt={settings.partnerName} className="h-full object-contain" />
             ) : (

@@ -55,7 +55,7 @@ function StandardTemplate({ settings, processTemplate }) {
         {/* Logo area */}
         <div className="text-2xl font-bold" style={{ fontFamily: primaryFont }}>
           {settings.ownerAccountImage ? (
-            <img src={settings.ownerAccountImage} alt="Logo" className="h-8" />
+            <img src={settings.ownerAccountImage} alt="Logo" className="h-16" />
           ) : (
             <div><span className="text-xl">🍎</span></div>
           )}
