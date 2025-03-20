@@ -3,6 +3,7 @@ import React from 'react';
 
 // Default colors for fallbacks
 const DEFAULT_COLORS = {
+  background: '#000000',
   text: '#FFFFFF',
   button: '#3758f9'
 };
@@ -26,28 +27,24 @@ function StandardTemplate({ settings, processTemplate }) {
     } else {
       // Fallback to color if no image
       backgroundStyle = {
-        backgroundColor: palette.background || '#000000'
+        backgroundColor: palette.background || DEFAULT_COLORS.background
       };
     }
   } else if (backgroundType === 'color') {
     // Solid color background
     backgroundStyle = {
-      backgroundColor: settings.backgroundColor || palette.background || '#000000'
+      backgroundColor: palette.background || DEFAULT_COLORS.background
     };
   }
   
-  // Colors
-  const headerColor = palette.text || settings.headerColor || DEFAULT_COLORS.text;
-  const buttonBgColor = palette.button || settings.buttonBackgroundColor || DEFAULT_COLORS.button;
-  const buttonTextColor = settings.buttonTextColor || '#FFFFFF';
+  // Colors - use ONLY palette colors
+  const headerColor = palette.text || DEFAULT_COLORS.text;
+  const buttonBgColor = palette.button || DEFAULT_COLORS.button;
+  const buttonTextColor = '#FFFFFF';
   
   // Font handling
   const primaryFont = settings.primaryFont || 'Helvetica, Arial, sans-serif';
   const secondaryFont = settings.secondaryFont || 'Helvetica, Arial, sans-serif';
-  
-  // Element-specific font overrides
-  const headerFont = settings.headerFont || primaryFont;
-  const buttonFont = settings.buttonFont || secondaryFont;
   
   return (
     <div 
@@ -76,7 +73,7 @@ function StandardTemplate({ settings, processTemplate }) {
           className="text-2xl mb-5"
           style={{ 
             color: headerColor,
-            fontFamily: headerFont,
+            fontFamily: primaryFont,
             textShadow: '0 1px 3px rgba(0,0,0,0.3)'
           }}
         >
@@ -88,7 +85,7 @@ function StandardTemplate({ settings, processTemplate }) {
           style={{
             backgroundColor: buttonBgColor,
             color: buttonTextColor,
-            fontFamily: buttonFont
+            fontFamily: secondaryFont
           }}
         >
           {settings.ctaText}

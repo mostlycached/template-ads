@@ -1,6 +1,5 @@
 // src/components/TestimonialSettings.js
 import React, { useState } from 'react';
-import ColorPicker from './ColorPicker';
 import GradientGenerator from './GradientGenerator';
 
 function TestimonialSettings({ settings, handleInputChange, handleImageUpload, handleRemoveImage, updateSettings }) {
@@ -163,10 +162,9 @@ function TestimonialSettings({ settings, handleInputChange, handleImageUpload, h
       {backgroundType === 'solid' ? (
         <div className="mb-5">
           <label className="block mb-2 font-medium">Background Color</label>
-          <ColorPicker 
-            color={settings.backgroundColor || '#f0f5fa'} 
-            onChange={(color) => updateSettings('backgroundColor', color)} 
-          />
+          <p className="text-sm text-gray-600 mb-2">
+            Background color is now controlled through the Colors tab in the Style panel.
+          </p>
         </div>
       ) : (
         <GradientGenerator 
@@ -175,15 +173,6 @@ function TestimonialSettings({ settings, handleInputChange, handleImageUpload, h
           updateSettings={updateSettings} 
         />
       )}
-      
-      {/* Accent Color (Quote Box) */}
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Accent Color (Quote Box)</label>
-        <ColorPicker 
-          color={settings.accentColor || '#2b5c8e'} 
-          onChange={(color) => updateSettings('accentColor', color)} 
-        />
-      </div>
     </>
   );
 }

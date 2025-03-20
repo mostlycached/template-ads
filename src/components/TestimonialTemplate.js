@@ -29,23 +29,16 @@ function TestimonialTemplate({ settings }) {
        settings.backgroundColor.includes('radial-gradient'))) {
     containerStyle.backgroundImage = settings.backgroundColor;
   } else {
-    containerStyle.backgroundColor = palette.background || 
-                                    settings.backgroundColor || 
-                                    DEFAULT_COLORS.background;
+    containerStyle.backgroundColor = palette.background || DEFAULT_COLORS.background;
   }
   
-  // Other colors
-  const accentColor = palette.accent || settings.accentColor || DEFAULT_COLORS.accent;
+  // Other colors - use ONLY palette colors
+  const accentColor = palette.accent || DEFAULT_COLORS.accent;
   const textColor = palette.text || DEFAULT_COLORS.text;
   
   // Font handling
   const primaryFont = settings.primaryFont || 'Arial, sans-serif';
   const secondaryFont = settings.secondaryFont || 'Georgia, serif';
-  
-  // Element-specific font overrides
-  const personQuoteFont = settings.personQuoteFont || secondaryFont;
-  const personNameFont = settings.personNameFont || primaryFont;
-  const personTitleFont = settings.personTitleFont || secondaryFont;
   
   const processedQuote = settings.personQuote?.replace(/{{companyName}}/g, settings.companyName || 'Company') || '';
   
@@ -97,7 +90,7 @@ function TestimonialTemplate({ settings }) {
               >
                 <p 
                   className="text-white text-lg"
-                  style={{ fontFamily: personQuoteFont }}
+                  style={{ fontFamily: secondaryFont }}
                 >
                   {processedQuote}
                 </p>
@@ -108,13 +101,13 @@ function TestimonialTemplate({ settings }) {
                   className="text-xl font-bold"
                   style={{ 
                     color: accentColor,
-                    fontFamily: personNameFont
+                    fontFamily: primaryFont
                   }}
                 >
                   {settings.personName}
                 </h3>
                 <p 
-                  style={{ fontFamily: personTitleFont }}
+                  style={{ fontFamily: secondaryFont }}
                   className="text-gray-600"
                 >
                   {settings.personTitle}, 

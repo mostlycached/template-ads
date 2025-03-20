@@ -1,6 +1,5 @@
 // src/components/StandardSettings.js
 import React, { useState } from 'react';
-import ColorPicker from './ColorPicker';
 import BackgroundGallery from './BackgroundGallery';
 
 function StandardSettings({ settings, handleInputChange, handleImageUpload, handleRemoveImage, updateSettings }) {
@@ -123,10 +122,9 @@ function StandardSettings({ settings, handleInputChange, handleImageUpload, hand
         {backgroundType === 'color' && (
           <div className="mb-5">
             <label className="block mb-2 font-medium">Background Color</label>
-            <ColorPicker 
-              color={settings.backgroundColor || '#000000'} 
-              onChange={(color) => updateSettings('backgroundColor', color)} 
-            />
+            <p className="text-sm text-gray-600 mb-2">
+              Background color is now controlled through the Colors tab in the Style panel.
+            </p>
           </div>
         )}
       </div>
@@ -146,17 +144,6 @@ function StandardSettings({ settings, handleInputChange, handleImageUpload, hand
         </div>
       </div>
       
-      {/* Header Color */}
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Header Color</label>
-        <div className="relative">
-          <ColorPicker 
-            color={settings.headerColor || '#FFFFFF'} 
-            onChange={(color) => updateSettings('headerColor', color)} 
-          />
-        </div>
-      </div>
-      
       {/* CTA */}
       <div className="mb-5">
         <label className="block mb-2 font-medium">CTA</label>
@@ -167,28 +154,6 @@ function StandardSettings({ settings, handleInputChange, handleImageUpload, hand
             onChange={(e) => handleInputChange(e, 'ctaText')}
             placeholder="CTA text goes here"
             className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-      </div>
-      
-      {/* Button Background Color */}
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Button Background Color</label>
-        <div className="relative">
-          <ColorPicker 
-            color={settings.buttonBackgroundColor || '#3758f9'} 
-            onChange={(color) => updateSettings('buttonBackgroundColor', color)} 
-          />
-        </div>
-      </div>
-      
-      {/* Button Text Color */}
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Button Text Color</label>
-        <div className="relative">
-          <ColorPicker 
-            color={settings.buttonTextColor || '#FFFFFF'} 
-            onChange={(color) => updateSettings('buttonTextColor', color)} 
           />
         </div>
       </div>

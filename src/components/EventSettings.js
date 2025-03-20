@@ -1,5 +1,4 @@
 import React from 'react';
-import ColorPicker from './ColorPicker';
 
 function EventSettings({ settings, handleInputChange, handleImageUpload, handleRemoveImage, updateSettings }) {
   return (
@@ -212,23 +211,6 @@ function EventSettings({ settings, handleInputChange, handleImageUpload, handleR
         />
       </div>
       
-      {/* Colors */}
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Background Color</label>
-        <ColorPicker 
-          color={settings.backgroundColor || '#0a2240'} 
-          onChange={(color) => updateSettings('backgroundColor', color)} 
-        />
-      </div>
-      
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Accent Color</label>
-        <ColorPicker 
-          color={settings.accentColor || '#f7941d'} 
-          onChange={(color) => updateSettings('accentColor', color)} 
-        />
-      </div>
-      
       <div className="mb-5">
         <label className="block mb-2 font-medium">CTA Button Text</label>
         <input 
@@ -237,22 +219,6 @@ function EventSettings({ settings, handleInputChange, handleImageUpload, handleR
           onChange={(e) => handleInputChange(e, 'ctaText')}
           placeholder="Enter CTA text"
           className="w-full p-2 border border-gray-300 rounded"
-        />
-      </div>
-      
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Button Background Color</label>
-        <ColorPicker 
-          color={settings.buttonBackgroundColor || '#f7941d'} 
-          onChange={(color) => updateSettings('buttonBackgroundColor', color)} 
-        />
-      </div>
-      
-      <div className="mb-5">
-        <label className="block mb-2 font-medium">Button Text Color</label>
-        <ColorPicker 
-          color={settings.buttonTextColor || '#FFFFFF'} 
-          onChange={(color) => updateSettings('buttonTextColor', color)} 
         />
       </div>
     </>

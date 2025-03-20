@@ -13,24 +13,16 @@ function EventTemplate({ settings }) {
   // Extract color palette with fallback
   const palette = settings.colorPalette || {};
   
-  // IMPORTANT: Changed priority order - palette takes precedence
-  // Use palette values first, then specific overrides, then defaults
-  const backgroundColor = palette.background || settings.backgroundColor || DEFAULT_COLORS.background;
-  const accentColor = palette.accent || settings.accentColor || DEFAULT_COLORS.accent;
-  const buttonBgColor = palette.button || settings.buttonBackgroundColor || DEFAULT_COLORS.button;
-  const buttonTextColor = settings.buttonTextColor || '#FFFFFF';
+  // Colors - use ONLY palette colors
+  const backgroundColor = palette.background || DEFAULT_COLORS.background;
+  const accentColor = palette.accent || DEFAULT_COLORS.accent;
+  const buttonBgColor = palette.button || DEFAULT_COLORS.button;
+  const buttonTextColor = palette.primary || '#FFFFFF';
   const textColor = palette.text || DEFAULT_COLORS.text;
   
   // Font handling
   const primaryFont = settings.primaryFont || '"Segoe UI", Helvetica, Arial, sans-serif';
   const secondaryFont = settings.secondaryFont || 'Arial, sans-serif';
-  
-  // Element-specific font overrides
-  const eventTitleFont = settings.eventTitleFont || primaryFont;
-  const eventTypeFont = settings.eventTypeFont || secondaryFont;
-  const speaker1Font = settings.speaker1Font || primaryFont;
-  const speaker2Font = settings.speaker2Font || primaryFont;
-  const buttonFont = settings.buttonFont || secondaryFont;
   
   return (
     <div 
@@ -74,7 +66,7 @@ function EventTemplate({ settings }) {
       <div className="mb-8">
         <h1 
           className="text-2xl font-bold mb-3"
-          style={{ fontFamily: eventTitleFont }}
+          style={{ fontFamily: primaryFont }}
         >
           {settings.eventTitle}
         </h1>
@@ -83,7 +75,7 @@ function EventTemplate({ settings }) {
           style={{ 
             backgroundColor: accentColor, 
             color: '#fff',
-            fontFamily: eventTypeFont
+            fontFamily: secondaryFont
           }}
         >
           {settings.eventType}
@@ -109,19 +101,19 @@ function EventTemplate({ settings }) {
           </div>
           <h3 
             className="font-bold text-lg"
-            style={{ fontFamily: speaker1Font }}
+            style={{ fontFamily: primaryFont }}
           >
             {settings.speaker1Name}
           </h3>
           <p 
             className="text-sm text-center"
-            style={{ fontFamily: speaker1Font }}
+            style={{ fontFamily: primaryFont }}
           >
             {settings.speaker1Title}
           </p>
           <p 
             className="text-sm"
-            style={{ fontFamily: speaker1Font }}
+            style={{ fontFamily: primaryFont }}
           >
             {settings.speaker1Company}
           </p>
@@ -144,19 +136,19 @@ function EventTemplate({ settings }) {
           </div>
           <h3 
             className="font-bold text-lg"
-            style={{ fontFamily: speaker2Font }}
+            style={{ fontFamily: primaryFont }}
           >
             {settings.speaker2Name}
           </h3>
           <p 
             className="text-sm text-center"
-            style={{ fontFamily: speaker2Font }}
+            style={{ fontFamily: primaryFont }}
           >
             {settings.speaker2Title}
           </p>
           <p 
             className="text-sm"
-            style={{ fontFamily: speaker2Font }}
+            style={{ fontFamily: primaryFont }}
           >
             {settings.speaker2Company}
           </p>
@@ -170,7 +162,7 @@ function EventTemplate({ settings }) {
           style={{
             backgroundColor: buttonBgColor,
             color: buttonTextColor,
-            fontFamily: buttonFont
+            fontFamily: secondaryFont
           }}
         >
           {settings.ctaText}
