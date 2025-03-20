@@ -1,8 +1,44 @@
+// src/components/EventTemplate.js
 import React from 'react';
 
+// Default colors for fallbacks
+const DEFAULT_COLORS = {
+  background: '#0a2240',
+  accent: '#f7941d',
+  text: '#FFFFFF',
+  button: '#f7941d'
+};
+
 function EventTemplate({ settings }) {
+  // Extract color palette with fallback
+  const palette = settings.colorPalette || {};
+  
+  // Use specific overrides or fallback to palette values
+  const backgroundColor = settings.backgroundColor || palette.background || DEFAULT_COLORS.background;
+  const accentColor = settings.accentColor || palette.accent || DEFAULT_COLORS.accent;
+  const buttonBgColor = settings.buttonBackgroundColor || palette.button || DEFAULT_COLORS.button;
+  const buttonTextColor = settings.buttonTextColor || '#FFFFFF';
+  const textColor = palette.text || DEFAULT_COLORS.text;
+  
+  // Font handling
+  const primaryFont = settings.primaryFont || '"Segoe UI", Helvetica, Arial, sans-serif';
+  const secondaryFont = settings.secondaryFont || 'Arial, sans-serif';
+  
+  // Element-specific font overrides
+  const eventTitleFont = settings.eventTitleFont || primaryFont;
+  const eventTypeFont = settings.eventTypeFont || secondaryFont;
+  const speaker1Font = settings.speaker1Font || primaryFont;
+  const speaker2Font = settings.speaker2Font || primaryFont;
+  const buttonFont = settings.buttonFont || secondaryFont;
+  
   return (
-    <div className="relative h-full flex flex-col">
+    <div 
+      className="relative h-full flex flex-col"
+      style={{ 
+        backgroundColor: backgroundColor,
+        color: textColor
+      }}
+    >
       {/* Top logos */}
       <div className="flex justify-between items-start mb-8">
         {/* Company logo */}
@@ -10,7 +46,9 @@ function EventTemplate({ settings }) {
           {settings.ownerAccountImage ? (
             <img src={settings.ownerAccountImage} alt={settings.companyName} className="h-full object-contain" />
           ) : (
-            <div className="text-xl font-bold text-white">{settings.companyName}</div>
+            <div className="text-xl font-bold" style={{ fontFamily: primaryFont }}>
+              {settings.companyName}
+            </div>
           )}
         </div>
         
@@ -19,8 +57,13 @@ function EventTemplate({ settings }) {
           {settings.partnerImage ? (
             <img src={settings.partnerImage} alt={settings.partnerName} className="h-full object-contain" />
           ) : (
-            <div className="bg-white text-blue-600 h-12 w-12 flex items-center justify-center rounded-md">
-              <span className="text-xl">S</span>
+            <div 
+              className="bg-white h-12 w-12 flex items-center justify-center rounded-md"
+              style={{ color: backgroundColor }}
+            >
+              <span className="text-xl" style={{ fontFamily: primaryFont }}>
+                {settings.partnerName ? settings.partnerName.charAt(0) : 'S'}
+              </span>
             </div>
           )}
         </div>
@@ -28,12 +71,19 @@ function EventTemplate({ settings }) {
       
       {/* Event title */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-3">
+        <h1 
+          className="text-2xl font-bold mb-3"
+          style={{ fontFamily: eventTitleFont }}
+        >
           {settings.eventTitle}
         </h1>
         <div 
           className="inline-block px-4 py-1 rounded-sm text-sm font-bold"
-          style={{ backgroundColor: settings.accentColor, color: '#fff' }}
+          style={{ 
+            backgroundColor: accentColor, 
+            color: '#fff',
+            fontFamily: eventTypeFont
+          }}
         >
           {settings.eventType}
         </div>
@@ -56,9 +106,24 @@ function EventTemplate({ settings }) {
               </div>
             )}
           </div>
-          <h3 className="text-white font-bold text-lg">{settings.speaker1Name}</h3>
-          <p className="text-white text-sm text-center">{settings.speaker1Title}</p>
-          <p className="text-white text-sm">{settings.speaker1Company}</p>
+          <h3 
+            className="font-bold text-lg"
+            style={{ fontFamily: speaker1Font }}
+          >
+            {settings.speaker1Name}
+          </h3>
+          <p 
+            className="text-sm text-center"
+            style={{ fontFamily: speaker1Font }}
+          >
+            {settings.speaker1Title}
+          </p>
+          <p 
+            className="text-sm"
+            style={{ fontFamily: speaker1Font }}
+          >
+            {settings.speaker1Company}
+          </p>
         </div>
         
         {/* Speaker 2 */}
@@ -76,19 +141,35 @@ function EventTemplate({ settings }) {
               </div>
             )}
           </div>
-          <h3 className="text-white font-bold text-lg">{settings.speaker2Name}</h3>
-          <p className="text-white text-sm text-center">{settings.speaker2Title}</p>
-          <p className="text-white text-sm">{settings.speaker2Company}</p>
+          <h3 
+            className="font-bold text-lg"
+            style={{ fontFamily: speaker2Font }}
+          >
+            {settings.speaker2Name}
+          </h3>
+          <p 
+            className="text-sm text-center"
+            style={{ fontFamily: speaker2Font }}
+          >
+            {settings.speaker2Title}
+          </p>
+          <p 
+            className="text-sm"
+            style={{ fontFamily: speaker2Font }}
+          >
+            {settings.speaker2Company}
+          </p>
         </div>
       </div>
       
       {/* CTA Button */}
       <div className="mt-8 flex justify-center">
         <button
-          className="px-6 py-2 text-white font-bold rounded"
+          className="px-6 py-2 font-bold rounded"
           style={{
-            backgroundColor: settings.buttonBackgroundColor,
-            color: settings.buttonTextColor
+            backgroundColor: buttonBgColor,
+            color: buttonTextColor,
+            fontFamily: buttonFont
           }}
         >
           {settings.ctaText}
