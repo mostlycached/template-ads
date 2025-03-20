@@ -4,10 +4,11 @@ import StandardTemplate from './StandardTemplate';
 import TestimonialTemplate from './TestimonialTemplate';
 import EventTemplate from './EventTemplate';
 
-// Default colors for fallbacks
-const DEFAULT_COLORS = {
-  background: '#ffffff',
-  primary: '#333333'
+// Template-specific default background colors as fallbacks
+const TEMPLATE_DEFAULT_BACKGROUNDS = {
+  standard: '#000000',    // Black background for standard template
+  testimonial: '#f0f5fa', // Light blue background for testimonial
+  event: '#0a2240'        // Dark blue background for event
 };
 
 function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio }) {
@@ -15,12 +16,11 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
   const palette = settings.colorPalette || {};
   
   // Calculate aspect ratio styles using CSS padding technique
-  // This maintains the aspect ratio while allowing the container to be responsive
   const aspectRatioStyle = {
     position: 'relative',
     width: '100%',
     height: 0,
-    paddingBottom: `${(aspectRatio.height / aspectRatio.width) * 100}%`, // This creates the aspect ratio
+    paddingBottom: `${(aspectRatio.height / aspectRatio.width) * 100}%`,
     overflow: 'hidden'
   };
 
@@ -35,15 +35,27 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
     flexDirection: 'column'
   };
 
+  // IMPORTANT: Changed priority order - palette takes precedence
+  // Priority: 1. Palette background, 2. Explicit backgroundColor setting, 3. Template default, 4. Generic fallback
+  const backgroundColor = 
+    palette.background || 
+    settings.backgroundColor || 
+    TEMPLATE_DEFAULT_BACKGROUNDS[currentTemplate] || 
+    '#ffffff';
+
   // Background styling based on template settings
   const backgroundStyle = {
     backgroundImage: settings.backgroundImage ? `url(${settings.backgroundImage})` : undefined,
-    backgroundColor: settings.backgroundColor || palette.background || 
-      (currentTemplate === 'testimonial' ? '#f0f5fa' : 
-       currentTemplate === 'event' ? '#0a2240' : DEFAULT_COLORS.background),
+    backgroundColor: backgroundColor,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   };
+  
+  // Console log for debugging
+  console.log('Current template:', currentTemplate);
+  console.log('Palette background:', palette.background);
+  console.log('Settings background:', settings.backgroundColor);
+  console.log('Final background color being used:', backgroundColor);
   
   // Font settings for preview text
   const primaryFont = settings.primaryFont || 'Arial, sans-serif';
@@ -53,13 +65,6 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-lg font-semibold">Preview</h2>
         <div className="flex items-center gap-2">
-          <div 
-            className="px-3 py-1 border border-gray-300 rounded cursor-pointer"
-            style={{ fontFamily: primaryFont }}
-          >
-            <span>{settings.companyName || 'Company'}</span>
-            <span className="text-xs text-gray-500 ml-1">▼</span>
-          </div>
           <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-sm">
             {aspectRatio.label}
           </div>
@@ -97,7 +102,7 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
             className="text-lg font-bold"
             style={{ 
               fontFamily: settings.taglineFont || settings.primaryFont || 'Arial, sans-serif',
-              color: palette.primary || DEFAULT_COLORS.primary
+              color: palette.primary || '#333333'
             }}
           >
             {settings.tagline}
@@ -131,20 +136,6 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
           Preview: {currentTemplate.charAt(0).toUpperCase() + currentTemplate.slice(1)} Template | {aspectRatio.value}
         </div>
         
-        {/* Color palette debug info - can be removed in production */}
-        {palette && Object.keys(palette).length > 0 && (
-          <div className="text-xs text-gray-400 mt-2 flex flex-wrap gap-1">
-            {Object.entries(palette).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-1">
-                <div 
-                  className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: value }}
-                ></div>
-                <span>{key}</span>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

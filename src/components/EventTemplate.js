@@ -13,10 +13,11 @@ function EventTemplate({ settings }) {
   // Extract color palette with fallback
   const palette = settings.colorPalette || {};
   
-  // Use specific overrides or fallback to palette values
-  const backgroundColor = settings.backgroundColor || palette.background || DEFAULT_COLORS.background;
-  const accentColor = settings.accentColor || palette.accent || DEFAULT_COLORS.accent;
-  const buttonBgColor = settings.buttonBackgroundColor || palette.button || DEFAULT_COLORS.button;
+  // IMPORTANT: Changed priority order - palette takes precedence
+  // Use palette values first, then specific overrides, then defaults
+  const backgroundColor = palette.background || settings.backgroundColor || DEFAULT_COLORS.background;
+  const accentColor = palette.accent || settings.accentColor || DEFAULT_COLORS.accent;
+  const buttonBgColor = palette.button || settings.buttonBackgroundColor || DEFAULT_COLORS.button;
   const buttonTextColor = settings.buttonTextColor || '#FFFFFF';
   const textColor = palette.text || DEFAULT_COLORS.text;
   

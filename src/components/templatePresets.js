@@ -1,5 +1,5 @@
 // src/components/templatePresets.js
-// Template presets
+// Template presets with explicit color palettes
 const templatePresets = {
   standard: {
     companyName: 'Apple',
@@ -7,7 +7,7 @@ const templatePresets = {
     backgroundImage: null,
     aspectRatio: 'landscape', // Default aspect ratio for standard template
     
-    // Color palette
+    // Color palette - explicitly defined
     colorPalette: {
       primary: '#007AFF',   // Apple blue
       secondary: '#5AC8FA', // Apple light blue
@@ -16,6 +16,9 @@ const templatePresets = {
       button: '#007AFF',    // Apple blue
       accent: '#FF2D55'     // Apple pink
     },
+    
+    // Explicit background color for the template
+    backgroundColor: '#000000',
     
     // Font settings
     primaryFont: 'Helvetica, Arial, sans-serif',
@@ -46,7 +49,7 @@ const templatePresets = {
     personImage: null,
     aspectRatio: 'square', // Default aspect ratio for testimonial template
     
-    // Color palette
+    // Color palette - explicitly defined
     colorPalette: {
       primary: '#232F3E',   // Amazon dark blue
       secondary: '#FF9900', // Amazon orange
@@ -56,13 +59,15 @@ const templatePresets = {
       accent: '#2b5c8e'     // Medium blue accent
     },
     
+    // Explicit background color for the template
+    backgroundColor: '#f0f5fa',
+    
     // Font settings
     primaryFont: 'Arial, sans-serif',
     secondaryFont: 'Georgia, serif',
     
     // Template-specific content
-    backgroundColor: '', // Default: will use palette.background if not set
-    accentColor: '',     // Default: will use palette.accent if not set
+    accentColor: '#2b5c8e',     // Default: will use palette.accent if not set
     
     personQuote: '"Humans crave connection, and everything in life is about connecting with others. In the recruitment process, humans will still be interwoven, and AI will help automate tasks that were once done manually."',
     personQuoteFont: '', // Default: will use secondaryFont if not set
@@ -76,7 +81,7 @@ const templatePresets = {
     companyDescription: 'Amazon',
     
     ctaText: 'Learn More',
-    buttonBackgroundColor: '', // Default: will use palette.button if not set
+    buttonBackgroundColor: '#FF9900', // Default: will use palette.button if not set
     buttonTextColor: '#FFFFFF'
   },
   
@@ -87,7 +92,7 @@ const templatePresets = {
     partnerImage: null,
     aspectRatio: 'portrait', // Default aspect ratio for event template
     
-    // Color palette
+    // Color palette - explicitly defined
     colorPalette: {
       primary: '#0a2240',   // Dark blue
       secondary: '#f7941d', // Orange
@@ -97,13 +102,15 @@ const templatePresets = {
       accent: '#f7941d'     // Orange accent
     },
     
+    // Explicit background color for the template
+    backgroundColor: '#0a2240',
+    
     // Font settings
     primaryFont: '"Segoe UI", Helvetica, Arial, sans-serif',
     secondaryFont: 'Arial, sans-serif',
     
     // Template-specific content  
-    backgroundColor: '', // Default: will use palette.background if not set
-    accentColor: '',     // Default: will use palette.accent if not set
+    accentColor: '#f7941d',     // Default: will use palette.accent if not set
     
     eventTitle: 'Chlorinated paraffins compared to alternative chemistries',
     eventTitleFont: '',  // Default: will use primaryFont if not set
@@ -124,7 +131,7 @@ const templatePresets = {
     speaker2Font: '',    // Default: will use primaryFont if not set
     
     ctaText: 'Register Now',
-    buttonBackgroundColor: '', // Default: will use palette.button if not set
+    buttonBackgroundColor: '#f7941d', // Default: will use palette.button if not set
     buttonTextColor: '#FFFFFF',
     buttonFont: ''       // Default: will use secondaryFont if not set
   }

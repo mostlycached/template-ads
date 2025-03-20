@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ColorPicker from './ColorPicker';
 
-// Default brand palettes - can be expanded
+// Default brand palettes
 const PRESET_PALETTES = {
   blue: {
     primary: '#1a73e8',
@@ -38,7 +38,7 @@ const PRESET_PALETTES = {
   }
 };
 
-function ColorPaletteManager({ palette, updatePalette }) {
+function ColorPaletteManager({ palette, updatePalette, backgroundColor, onBackgroundColorChange }) {
   const [activeTab, setActiveTab] = useState('custom'); // 'preset' or 'custom'
   
   // Handle selecting a preset palette
@@ -54,6 +54,12 @@ function ColorPaletteManager({ palette, updatePalette }) {
       ...palette,
       [colorKey]: value
     });
+    
+    // If we're changing the background color, also set the explicit backgroundColor
+    // This would automatically update any components that use backgroundColor directly
+    if (colorKey === 'background' && onBackgroundColorChange) {
+      onBackgroundColorChange(value);
+    }
   };
   
   return (
@@ -128,6 +134,11 @@ function ColorPaletteManager({ palette, updatePalette }) {
                 color={palette.background}
                 onChange={(color) => handleColorChange('background', color)}
               />
+              {backgroundColor && backgroundColor !== palette.background && (
+                <div className="mt-1 text-xs text-yellow-600">
+                  Note: Template has a custom background override.
+                </div>
+              )}
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium">Text</label>

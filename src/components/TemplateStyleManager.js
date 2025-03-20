@@ -27,11 +27,16 @@ function TemplateStyleManager({ settings, updateSettings }) {
   const handlePaletteUpdate = (newPalette) => {
     updateSettings('colorPalette', newPalette);
     
-    // Also update element-specific colors if they're using palette values
-    if (!settings.backgroundColor) updateSettings('backgroundColor', newPalette.background);
-    if (!settings.accentColor) updateSettings('accentColor', newPalette.accent);
-    if (!settings.buttonBackgroundColor) updateSettings('buttonBackgroundColor', newPalette.button);
-    if (!settings.headerColor) updateSettings('headerColor', newPalette.text);
+    // Now explicitly set backgroundColor to the palette background
+    // This ensures template switching works properly by keeping the two in sync
+    if (newPalette.background) {
+      updateSettings('backgroundColor', newPalette.background);
+    }
+  };
+  
+  // Handler for backgroundColor changes specifically
+  const handleBackgroundColorChange = (color) => {
+    updateSettings('backgroundColor', color);
   };
   
   return (
@@ -69,19 +74,36 @@ function TemplateStyleManager({ settings, updateSettings }) {
           <div>
             <ColorPaletteManager 
               palette={settings.colorPalette || DEFAULT_PALETTE} 
-              updatePalette={handlePaletteUpdate} 
+              updatePalette={handlePaletteUpdate}
+              backgroundColor={settings.backgroundColor}
+              onBackgroundColorChange={handleBackgroundColorChange}
             />
             
             <div className="text-sm text-gray-500 mb-4">
-              Adjust the color palette above to set the overall color scheme, or override individual element colors below.
+              The color palette controls the overall color scheme of your template. Changes to the palette will apply across all elements.
             </div>
             
             {/* Individual color overrides section - rendered based on template type */}
             <div className="border-t border-gray-200 pt-4 mt-4">
-              <h3 className="font-medium mb-3">Element Color Overrides</h3>
+              <h3 className="font-medium mb-3">
+                Element Color Overrides 
+                <span className="text-xs text-gray-500 ml-2">
+                  (These override palette colors for specific elements)
+                </span>
+              </h3>
               
               {/* This section would be template-specific */}
               {/* Show only relevant override controls based on current template */}
+              
+              {/* Insert a note explaining how overrides work */}
+              <div className="text-sm text-gray-500 p-3 bg-gray-50 rounded-lg">
+                <p className="font-medium mb-1">How color precedence works:</p>
+                <ol className="list-decimal pl-5 space-y-1">
+                  <li>Palette colors apply to all elements by default</li>
+                  <li>Element-specific overrides will take precedence over palette colors</li>
+                  <li>Any changes to the palette will update all elements that don't have overrides</li>
+                </ol>
+              </div>
             </div>
           </div>
         )}

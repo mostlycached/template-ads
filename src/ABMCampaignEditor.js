@@ -40,51 +40,62 @@ function ABMCampaignEditor() {
 
   function switchTemplate(templateName) {
     if (templatePresets[templateName]) {
-      // Preserve certain settings when switching templates
-      const companyName = templateSettings.companyName;
-      const aspectRatio = templateSettings.aspectRatio;
-      const ownerAccountImage = templateSettings.ownerAccountImage;
-      const colorPalette = templateSettings.colorPalette || DEFAULT_COLOR_PALETTE;
-      const primaryFont = templateSettings.primaryFont;
-      const secondaryFont = templateSettings.secondaryFont;
+      console.log(`Switching to template: ${templateName}`);
       
-      setCurrentTemplate(templateName);
-      
-      const newSettings = {
-        ...templatePresets[templateName],
-        companyName,
-        aspectRatio,
-        ownerAccountImage,
-        primaryFont,
-        secondaryFont
+      // Save common settings to preserve
+      const commonSettings = {
+        companyName: templateSettings.companyName,
+        aspectRatio: templateSettings.aspectRatio,
+        ownerAccountImage: templateSettings.ownerAccountImage,
+        primaryFont: templateSettings.primaryFont,
+        secondaryFont: templateSettings.secondaryFont
       };
       
-      // Ensure color palette exists in the new template
+      // Start with a fresh copy of the template preset
+      const newSettings = { ...templatePresets[templateName] };
+      console.log('New template preset:', newSettings);
+      
+      // Apply common settings
+      Object.keys(commonSettings).forEach(key => {
+        if (commonSettings[key] !== undefined) {
+          newSettings[key] = commonSettings[key];
+        }
+      });
+      
+      // Ensure color palette exists
       if (!newSettings.colorPalette) {
-        newSettings.colorPalette = colorPalette;
+        console.log('No color palette in new template, using default');
+        newSettings.colorPalette = DEFAULT_COLOR_PALETTE;
       }
       
+      setCurrentTemplate(templateName);
       setTemplateSettings(newSettings);
+      
+      console.log('Final settings after switch:', newSettings);
     }
   }
 
   function resetTemplate() {
-    // Preserve company name and logo when resetting
+    console.log('Resetting template to defaults');
+    
+    // Preserve only essential settings
     const companyName = templateSettings.companyName;
     const ownerAccountImage = templateSettings.ownerAccountImage;
     
-    const newSettings = {
-      ...templatePresets[currentTemplate],
-      companyName,
-      ownerAccountImage
-    };
+    // Get a fresh copy of the current template preset
+    const newSettings = { ...templatePresets[currentTemplate] };
     
-    // Ensure color palette exists after reset
+    // Apply preserved settings
+    newSettings.companyName = companyName;
+    newSettings.ownerAccountImage = ownerAccountImage;
+    
+    // Ensure color palette exists
     if (!newSettings.colorPalette) {
       newSettings.colorPalette = DEFAULT_COLOR_PALETTE;
     }
     
     setTemplateSettings(newSettings);
+    console.log('Template reset complete');
   }
 
   function handleImageUpload(e, imageType) {
@@ -114,12 +125,11 @@ function ABMCampaignEditor() {
   // Get current aspect ratio details
   const currentRatio = ASPECT_RATIOS[templateSettings.aspectRatio || 'landscape'];
 
-  // Effect to ensure color palette always exists
+  // Effect to update UI when template changes
   useEffect(() => {
-    if (!templateSettings.colorPalette) {
-      updateSettings('colorPalette', DEFAULT_COLOR_PALETTE);
-    }
-  }, [templateSettings]);
+    console.log(`Template changed to: ${currentTemplate}`);
+    console.log('Current settings:', templateSettings);
+  }, [currentTemplate, templateSettings]);
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
