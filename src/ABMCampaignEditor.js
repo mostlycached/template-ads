@@ -1,9 +1,10 @@
-// src/ABMCampaignEditor.js
+// src/ABMCampaignEditor.js (Updated)
 import React, { useState, useEffect } from 'react';
 import EditorPanel from './components/EditorPanel';
 import PreviewPanel from './components/PreviewPanel';
 import templatePresets from './components/templatePresets';
 import { ASPECT_RATIOS } from './components/AspectRatioSelector';
+import RemotionRenderer from './components/RemotionRenderer';
 
 // Default color palette to use if template doesn't have one
 const DEFAULT_COLOR_PALETTE = {
@@ -29,6 +30,9 @@ function ABMCampaignEditor() {
     
     return initialSettings;
   });
+  
+  // State for video rendering modal
+  const [showRenderModal, setShowRenderModal] = useState(false);
 
   // Functions
   function updateSettings(key, value) {
@@ -40,26 +44,23 @@ function ABMCampaignEditor() {
 
   function switchTemplate(templateName) {
     if (templatePresets[templateName]) {
-      // Define a minimal set of common settings to preserve across templates
-      // Only settings that should be preserved across ALL template types
-      const minimalCommonSettings = {
+      // Save common settings to preserve
+      const commonSettings = {
+        companyName: templateSettings.companyName,
         aspectRatio: templateSettings.aspectRatio,
+        ownerAccountImage: templateSettings.ownerAccountImage,
         primaryFont: templateSettings.primaryFont,
         secondaryFont: templateSettings.secondaryFont
       };
       
-      // Start with a completely fresh copy of the template preset
-      const newSettings = JSON.parse(JSON.stringify(templatePresets[templateName]));
-      
-      // Apply only the minimal common settings
-      Object.keys(minimalCommonSettings).forEach(key => {
-        if (minimalCommonSettings[key] !== undefined) {
-          newSettings[key] = minimalCommonSettings[key];
+      // Start with a fresh copy of the template preset
+      const newSettings = { ...templatePresets[templateName] };   
+      // Apply common settings
+      Object.keys(commonSettings).forEach(key => {
+        if (commonSettings[key] !== undefined) {
+          newSettings[key] = commonSettings[key];
         }
       });
-      
-      // DO NOT preserve companyName - Each template should use its own default
-      // DO NOT preserve ownerAccountImage - Each template should use its own default
       
       // Ensure color palette exists
       if (!newSettings.colorPalette) {
@@ -114,6 +115,18 @@ function ABMCampaignEditor() {
     if (!text) return '';
     return text.replace(/{{companyName}}/g, templateSettings.companyName || 'Company');
   }
+  
+  // Handle video rendering
+  function handleRenderVideo() {
+    setShowRenderModal(true);
+  }
+  
+  function handleRenderComplete(videoUrl) {
+    // In a real app, you might want to save the video URL to the template settings
+    updateSettings('renderedVideoUrl', videoUrl);
+    
+    // Don't auto-close the modal, let the user download the video first
+  }
 
   // Get current aspect ratio details
   const currentRatio = ASPECT_RATIOS[templateSettings.aspectRatio || 'landscape'];
@@ -121,7 +134,15 @@ function ABMCampaignEditor() {
   // Effect to update UI when template changes
   useEffect(() => {
     console.log(`Template changed to: ${currentTemplate}`);
+    
+    // If switching to video template, check if we need to override aspect ratio
+    if (currentTemplate === 'videoTestimonial' && templateSettings.aspectRatio !== 'square') {
+      updateSettings('aspectRatio', 'square');
+    }
   }, [currentTemplate, templateSettings]);
+  
+  // Check if current template is a video template
+  const isVideoTemplate = currentTemplate === 'videoTestimonial';
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -142,9 +163,43 @@ function ABMCampaignEditor() {
           currentTemplate={currentTemplate}
           processTemplate={processTemplate}
           aspectRatio={currentRatio}
-          updateSettings={updateSettings}
         />
       </div>
+      
+      {/* Video Rendering Modal */}
+      {showRenderModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg max-w-md w-full p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Render Video</h2>
+              <button 
+                onClick={() => setShowRenderModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <RemotionRenderer 
+              settings={templateSettings}
+              onRenderComplete={handleRenderComplete}
+            />
+          </div>
+        </div>
+      )}
+      
+      {/* Render button for video templates */}
+      {isVideoTemplate && (
+        <div className="p-4 flex justify-end border-t border-gray-200">
+          <button
+            onClick={handleRenderVideo}
+            className="bg-indigo-600 text-white px-4 py-2 rounded-md flex items-center"
+          >
+            <span className="mr-2">🎬</span>
+            Render Video
+          </button>
+        </div>
+      )}
     </div>
   );
 }

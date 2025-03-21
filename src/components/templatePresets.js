@@ -31,6 +31,7 @@ const templatePresets = {
   },
   
   testimonial: {
+    companyName: 'Amazon',
     partnerName: 'Manatal',
     ownerAccountImage: null,
     partnerImage: null,
@@ -72,6 +73,7 @@ const templatePresets = {
   },
   
   event: {
+    companyName: 'Univar Solutions',
     partnerName: 'Stle',
     ownerAccountImage: null,
     partnerImage: null,
@@ -106,6 +108,54 @@ const templatePresets = {
     speaker2Company: 'Univar Solutions',
     
     ctaText: 'Register Now'
+  },
+  
+  // New Video Testimonial template
+  videoTestimonial: {
+    // Inherit most of the static testimonial settings
+    companyName: 'Amazon',
+    partnerName: 'Manatal',
+    ownerAccountImage: null,
+    partnerImage: null,
+    personImage: null,
+    
+    // Color palette - explicitly defined
+    colorPalette: {
+      primary: '#232F3E',   // Amazon dark blue
+      secondary: '#FF9900', // Amazon orange
+      background: '#f0f5fa', // Light blue background
+      text: '#232F3E',      // Dark text
+      button: '#FF9900',    // Orange button
+      accent: '#2b5c8e'     // Medium blue accent
+    },
+    
+    // Font settings
+    primaryFont: 'Arial, sans-serif',
+    secondaryFont: 'Georgia, serif',
+    
+    // Content presets
+    personQuote: '"Humans crave connection, and everything in life is about connecting with others. In the recruitment process, humans will still be interwoven, and AI will help automate tasks that were once done manually."',
+    personName: 'Jonathan Kidder',
+    personTitle: 'Senior Technical Recruiter',
+    companyDescription: 'Amazon',
+    
+    // Video-specific settings
+    videoDuration: 15, // in seconds
+    animationSpeed: 'fast', // slow, medium, fast
+    quoteAnimationStyle: 'typing', // typing, fadein, wordbyword
+    speakerRevealTiming: 10, // seconds into video when speaker appears
+    videoFormat: 'mp4', // mp4, webm, gif
+    videoQuality: 'medium', // low, medium, high
+    
+    // Audio settings
+    backgroundMusic: 'corporate1', // ID of the selected background music
+    musicVolume: 80, // Volume percentage (0-100)
+    musicFadeIn: true,
+    musicFadeOut: true,
+    
+    // Fixed settings for video
+    aspectRatio: 'square',
+    templateType: 'video'
   }
 };
 

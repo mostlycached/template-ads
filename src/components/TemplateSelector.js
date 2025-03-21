@@ -1,4 +1,4 @@
-// src/components/TemplateSelector.js
+// src/components/TemplateSelector.js (Updated)
 import React, { useState, useEffect, useRef } from 'react';
 
 function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
@@ -30,6 +30,30 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
     setIsMenuOpen(false); // Close the menu after selection
   };
   
+  // Format template name for display
+  const formatTemplateName = (name) => {
+    // Split by camelCase
+    const formatted = name.replace(/([A-Z])/g, ' $1');
+    // Capitalize first letter and rest of the words
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  };
+  
+  // Template icons for visual distinction
+  const getTemplateIcon = (templateName) => {
+    switch(templateName) {
+      case 'standard':
+        return '📄';
+      case 'testimonial':
+        return '💬';
+      case 'event':
+        return '📅';
+      case 'videoTestimonial':
+        return '🎬';
+      default:
+        return '📄';
+    }
+  };
+  
   return (
     <div className="mb-5">
       <div className="flex flex-col relative" ref={menuRef}>
@@ -37,9 +61,12 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
           className="bg-gray-900 text-white px-5 py-2 rounded mb-2 flex items-center justify-between"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          <span>
-            {currentTemplate.charAt(0).toUpperCase() + currentTemplate.slice(1)} Template
-          </span>
+          <div className="flex items-center">
+            <span className="mr-2">{getTemplateIcon(currentTemplate)}</span>
+            <span>
+              {formatTemplateName(currentTemplate)} Template
+            </span>
+          </div>
           <span className="ml-2">
             {isMenuOpen ? '▲' : '▼'}
           </span>
@@ -51,20 +78,40 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
               className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${currentTemplate === 'standard' ? 'bg-blue-50 text-blue-700' : ''}`} 
               onClick={() => handleTemplateSelect('standard')}
             >
-              Standard
+              <span className="mr-2">📄</span> Standard
             </button>
             <button 
               className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${currentTemplate === 'testimonial' ? 'bg-blue-50 text-blue-700' : ''}`} 
               onClick={() => handleTemplateSelect('testimonial')}
             >
-              Testimonial
+              <span className="mr-2">💬</span> Testimonial
             </button>
             <button 
               className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${currentTemplate === 'event' ? 'bg-blue-50 text-blue-700' : ''}`} 
               onClick={() => handleTemplateSelect('event')}
             >
-              Event
+              <span className="mr-2">📅</span> Event
             </button>
+            <button 
+              className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${currentTemplate === 'videoTestimonial' ? 'bg-blue-50 text-blue-700' : ''}`} 
+              onClick={() => handleTemplateSelect('videoTestimonial')}
+            >
+              <span className="mr-2">🎬</span> Video Testimonial
+            </button>
+            
+            {/* Divider */}
+            <div className="border-t border-gray-200 my-2"></div>
+            
+            {/* Template Categories */}
+            <div className="px-4 py-1 text-xs text-gray-500">Template Categories</div>
+            <div className="grid grid-cols-2 gap-1 px-2 py-1">
+              <button className="text-sm text-left px-2 py-1 hover:bg-gray-100 rounded">
+                <span className="text-blue-500 font-medium">Static</span>
+              </button>
+              <button className="text-sm text-left px-2 py-1 hover:bg-gray-100 rounded">
+                <span className="text-indigo-500 font-medium">Video</span>
+              </button>
+            </div>
           </div>
         )}
       </div>

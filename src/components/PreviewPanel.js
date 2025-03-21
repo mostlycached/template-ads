@@ -1,32 +1,36 @@
-// src/components/PreviewPanel.js
+// src/components/PreviewPanel.js (Update)
 import React from 'react';
 import StandardTemplate from './StandardTemplate';
 import TestimonialTemplate from './TestimonialTemplate';
 import EventTemplate from './EventTemplate';
-import { ASPECT_RATIOS } from './AspectRatioSelector';
+import VideoPreviewWithAudio from './VideoPreviewWithAudio';
 
-// Template-specific default background colors as fallbacks
+// Template-specific default backgrounds as fallbacks
 const TEMPLATE_DEFAULT_BACKGROUNDS = {
   standard: '#000000',    // Black background for standard template
   testimonial: '#f0f5fa', // Light blue background for testimonial
-  event: '#0a2240'        // Dark blue background for event
+  event: '#0a2240',        // Dark blue background for event
+  videoTestimonial: '#f0f5fa'  // Light blue background for video testimonial
 };
 
-function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio, updateSettings }) {
+function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio }) {
   // Extract color palette with fallback
   const palette = settings.colorPalette || {};
   
-  // Calculate aspect ratio styles using CSS padding technique
-  const aspectRatioStyle = {
+  // Determine if this is a video template
+  const isVideoTemplate = currentTemplate === 'videoTestimonial';
+  
+  // For non-video templates, calculate aspect ratio styles
+  const aspectRatioStyle = !isVideoTemplate ? {
     position: 'relative',
     width: '100%',
     height: 0,
     paddingBottom: `${(aspectRatio.height / aspectRatio.width) * 100}%`,
     overflow: 'hidden'
-  };
+  } : {};
 
   // Style for the content that needs to fill the aspect ratio container
-  const contentStyle = {
+  const contentStyle = !isVideoTemplate ? {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -34,7 +38,7 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio,
     height: '100%',
     display: 'flex',
     flexDirection: 'column'
-  };
+  } : {};
 
   // Priority: 1. Palette background, 2. Explicit backgroundColor setting, 3. Template default, 4. Generic fallback
   const backgroundColor = 
@@ -44,39 +48,34 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio,
     '#ffffff';
 
   // Background styling based on template settings
-  const backgroundStyle = {
+  const backgroundStyle = !isVideoTemplate ? {
     backgroundImage: settings.backgroundImage ? `url(${settings.backgroundImage})` : undefined,
     backgroundColor: backgroundColor,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-  };
+  } : {};
   
   // Font settings for preview text
   const primaryFont = settings.primaryFont || 'Arial, sans-serif';
-  
-  // Handler for aspect ratio change
-  const handleAspectRatioChange = (e) => {
-    const selectedRatio = e.target.value;
-    updateSettings('aspectRatio', selectedRatio);
-  };
   
   return (
     <div className="flex-1 p-5 flex flex-col">
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-lg font-semibold">Preview</h2>
         <div className="flex items-center gap-2">
-          {/* Aspect Ratio Dropdown */}
-          <select
-            value={settings.aspectRatio || 'landscape'}
-            onChange={handleAspectRatioChange}
-            className="py-1 px-2 border border-gray-300 rounded text-sm"
-          >
-            {Object.entries(ASPECT_RATIOS).map(([key, ratio]) => (
-              <option key={key} value={key}>
-                {ratio.label}
-              </option>
-            ))}
-          </select>
+          {/* Only show aspect ratio badge for non-video templates */}
+          {!isVideoTemplate && (
+            <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-md text-sm">
+              {aspectRatio.label}
+            </div>
+          )}
+          
+          {/* Show video badge for video templates */}
+          {isVideoTemplate && (
+            <div className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-md text-sm flex items-center">
+              <span className="mr-1">🎬</span> Video
+            </div>
+          )}
         </div>
       </div>
       
@@ -93,17 +92,23 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio,
           </div>
         )}
         
-        {/* Preview Card with Aspect Ratio */}
-        <div style={aspectRatioStyle} className="rounded-lg overflow-hidden">
-          <div 
-            style={{...contentStyle, ...backgroundStyle}}
-            className="p-5"
-          >
-            {currentTemplate === 'event' && <EventTemplate settings={settings} />}
-            {currentTemplate === 'testimonial' && <TestimonialTemplate settings={settings} />}
-            {currentTemplate === 'standard' && <StandardTemplate settings={settings} processTemplate={processTemplate} />}
+        {/* Preview Container: Handle differently for video vs static templates */}
+        {isVideoTemplate ? (
+          <div className="rounded-lg overflow-hidden">
+            <VideoPreviewWithAudio settings={settings} />
           </div>
-        </div>
+        ) : (
+          <div style={aspectRatioStyle} className="rounded-lg overflow-hidden">
+            <div 
+              style={{...contentStyle, ...backgroundStyle}}
+              className="p-5"
+            >
+              {currentTemplate === 'event' && <EventTemplate settings={settings} />}
+              {currentTemplate === 'testimonial' && <TestimonialTemplate settings={settings} />}
+              {currentTemplate === 'standard' && <StandardTemplate settings={settings} processTemplate={processTemplate} />}
+            </div>
+          </div>
+        )}
         
         {/* Only show tagline for standard template */}
         {currentTemplate === 'standard' && settings.tagline && (
@@ -142,12 +147,18 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio,
         </div>
         
         <div className="text-xs mt-3 text-center text-gray-500">
-          Preview: {currentTemplate.charAt(0).toUpperCase() + currentTemplate.slice(1)} Template
+          Preview: {formatTemplateName(currentTemplate)} Template 
+          {!isVideoTemplate ? ` | ${aspectRatio.value}` : ' | Video'}
         </div>
-        
       </div>
     </div>
   );
+}
+
+// Helper to format template name
+function formatTemplateName(name) {
+  const formatted = name.replace(/([A-Z])/g, ' $1');
+  return formatted.charAt(0).toUpperCase() + formatted.slice(1);
 }
 
 export default PreviewPanel;
