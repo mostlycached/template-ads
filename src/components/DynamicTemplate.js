@@ -9,6 +9,8 @@ import layoutVariants from './DynamicTemplateLayouts';
 function DynamicTemplate({ settings }) {
   // Extract palette and font settings
   const palette = settings.colorPalette || {};
+  
+  // Colors - use ONLY palette colors
   const backgroundColor = settings.backgroundType === 'color' 
     ? (palette.background || '#ffffff')
     : undefined;
@@ -16,7 +18,7 @@ function DynamicTemplate({ settings }) {
   const accentColor = palette.accent || '#3758f9';
   const ctaColor = palette.button || accentColor;
   
-  // Font settings
+  // Font handling
   const primaryFont = settings.primaryFont || 'Arial, sans-serif';
   const secondaryFont = settings.secondaryFont || 'Georgia, serif';
   
@@ -41,7 +43,10 @@ function DynamicTemplate({ settings }) {
   } else if (settings.backgroundType === 'gradient' && settings.backgroundColor && 
             (settings.backgroundColor.includes('linear-gradient') || 
              settings.backgroundColor.includes('radial-gradient'))) {
+    // Handle gradient backgrounds created with GradientGenerator
     backgroundStyle.backgroundImage = settings.backgroundColor;
+    backgroundStyle.backgroundSize = 'cover';
+    backgroundStyle.backgroundPosition = 'center';
   } else {
     backgroundStyle.backgroundColor = backgroundColor;
   }

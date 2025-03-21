@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import BackgroundGallery from './BackgroundGallery';
 import LayoutPreview from './LayoutPreview';
+import GradientGenerator from './GradientGenerator';
 
 /**
  * Dynamic Settings Panel Component that allows customization
@@ -456,12 +457,11 @@ function DynamicSettings({
         )}
         
         {backgroundType === 'gradient' && (
-          <div className="mb-4">
-            <label className="block mb-2 font-medium">Background Gradient</label>
-            <p className="text-sm text-gray-600 mb-2">
-              Gradient backgrounds can be configured in the Style panel using the Smart Gradient generator.
-            </p>
-          </div>
+          <GradientGenerator 
+            colorPalette={settings.colorPalette} 
+            settings={settings} 
+            updateSettings={updateSettings} 
+          />
         )}
       </div>
       
