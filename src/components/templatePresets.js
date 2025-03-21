@@ -156,6 +156,45 @@ const templatePresets = {
     // Fixed settings for video
     aspectRatio: 'square',
     templateType: 'video'
+  },
+  
+  // New Dynamic Template
+  dynamic: {
+    companyName: 'Acme Corp',
+    ownerAccountImage: null,
+    backgroundType: 'color', // 'gallery', 'upload', 'color', or 'gradient'
+    aspectRatio: 'landscape', // Default aspect ratio
+    
+    // Components settings
+    components: ['header', 'checklist', 'cta'], // Default components
+    layout: 'centered', // Default layout
+    
+    // Color palette
+    colorPalette: {
+      primary: '#1F2937',   // Dark blue-gray
+      secondary: '#4B5563', // Medium gray
+      background: '#F9FAFB', // Light gray background
+      text: '#1F2937',      // Dark text
+      button: '#3B82F6',    // Bright blue button
+      accent: '#3B82F6'     // Bright blue accent
+    },
+    
+    // Font settings
+    primaryFont: 'Arial, sans-serif',
+    secondaryFont: 'Georgia, serif',
+    
+    // Content presets
+    header: 'Streamline Your Workflow',
+    subtitle: 'Our platform helps teams collaborate more effectively and get more done in less time.',
+    checklistItems: [
+      'Increase productivity by 35%',
+      'Reduce meeting time by 50%',
+      'Seamless integration with your tools'
+    ],
+    ctaText: 'Start Free Trial',
+    
+    // Visual settings
+    showDecorative: true
   }
 };
 

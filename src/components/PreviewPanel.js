@@ -1,16 +1,18 @@
-// src/components/PreviewPanel.js (Update)
+// src/components/PreviewPanel.js - Update to include DynamicTemplate
 import React from 'react';
 import StandardTemplate from './StandardTemplate';
 import TestimonialTemplate from './TestimonialTemplate';
 import EventTemplate from './EventTemplate';
 import VideoPreviewWithAudio from './VideoPreviewWithAudio';
+import DynamicTemplate from './DynamicTemplate';
 
 // Template-specific default backgrounds as fallbacks
 const TEMPLATE_DEFAULT_BACKGROUNDS = {
   standard: '#000000',    // Black background for standard template
   testimonial: '#f0f5fa', // Light blue background for testimonial
-  event: '#0a2240',        // Dark blue background for event
-  videoTestimonial: '#f0f5fa'  // Light blue background for video testimonial
+  event: '#0a2240',       // Dark blue background for event
+  videoTestimonial: '#f0f5fa',  // Light blue background for video testimonial
+  dynamic: '#F9FAFB'      // Light gray background for dynamic template
 };
 
 function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio }) {
@@ -76,6 +78,13 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
               <span className="mr-1">🎬</span> Video
             </div>
           )}
+          
+          {/* Show dynamic badge for dynamic template */}
+          {currentTemplate === 'dynamic' && (
+            <div className="px-3 py-1 bg-green-100 text-green-800 rounded-md text-sm flex items-center">
+              <span className="mr-1">⚡</span> Dynamic
+            </div>
+          )}
         </div>
       </div>
       
@@ -106,6 +115,7 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
               {currentTemplate === 'event' && <EventTemplate settings={settings} />}
               {currentTemplate === 'testimonial' && <TestimonialTemplate settings={settings} />}
               {currentTemplate === 'standard' && <StandardTemplate settings={settings} processTemplate={processTemplate} />}
+              {currentTemplate === 'dynamic' && <DynamicTemplate settings={settings} />}
             </div>
           </div>
         )}

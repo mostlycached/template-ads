@@ -49,6 +49,8 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
         return '📅';
       case 'videoTestimonial':
         return '🎬';
+      case 'dynamic':
+        return '⚡';
       default:
         return '📄';
     }
@@ -98,20 +100,13 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
             >
               <span className="mr-2">🎬</span> Video Testimonial
             </button>
+            <button 
+              className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${currentTemplate === 'dynamic' ? 'bg-blue-50 text-blue-700' : ''}`} 
+              onClick={() => handleTemplateSelect('dynamic')}
+            >
+              <span className="mr-2">⚡</span> Dynamic
+            </button>
             
-            {/* Divider */}
-            <div className="border-t border-gray-200 my-2"></div>
-            
-            {/* Template Categories */}
-            <div className="px-4 py-1 text-xs text-gray-500">Template Categories</div>
-            <div className="grid grid-cols-2 gap-1 px-2 py-1">
-              <button className="text-sm text-left px-2 py-1 hover:bg-gray-100 rounded">
-                <span className="text-blue-500 font-medium">Static</span>
-              </button>
-              <button className="text-sm text-left px-2 py-1 hover:bg-gray-100 rounded">
-                <span className="text-indigo-500 font-medium">Video</span>
-              </button>
-            </div>
           </div>
         )}
       </div>
