@@ -5,6 +5,7 @@ import TestimonialTemplate from './TestimonialTemplate';
 import EventTemplate from './EventTemplate';
 import VideoPreviewWithAudio from './VideoPreviewWithAudio';
 import DynamicTemplate from './DynamicTemplate';
+import B2BTemplate from './B2BTemplate';
 
 // Template-specific default backgrounds as fallbacks
 const TEMPLATE_DEFAULT_BACKGROUNDS = {
@@ -116,6 +117,7 @@ function PreviewPanel({ settings, currentTemplate, processTemplate, aspectRatio 
               {currentTemplate === 'testimonial' && <TestimonialTemplate settings={settings} />}
               {currentTemplate === 'standard' && <StandardTemplate settings={settings} processTemplate={processTemplate} />}
               {currentTemplate === 'dynamic' && <DynamicTemplate settings={settings} />}
+              {currentTemplate === 'b2bTemplate' && <B2BTemplate settings={settings} />}
             </div>
           </div>
         )}

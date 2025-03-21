@@ -1,5 +1,8 @@
 // src/components/TemplateSelector.js (Updated)
 import React, { useState, useEffect, useRef } from 'react';
+import B2BTemplate from './B2BTemplate';
+import B2BSettings from './B2BSettings';
+import { b2bTemplatePresets } from './B2BTemplatePresets';
 
 function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,9 +36,12 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
   // Format template name for display
   const formatTemplateName = (name) => {
     // Split by camelCase
-    const formatted = name.replace(/([A-Z])/g, ' $1');
+    let formatted = name.replace(/([A-Z])/g, ' $1');
     // Capitalize first letter and rest of the words
-    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    // Special case for "b2b"
+    formatted = formatted.replace(/\bb2b\b/i, 'B2B');
+    return formatted;
   };
   
   // Template icons for visual distinction
@@ -51,6 +57,8 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
         return '🎬';
       case 'dynamic':
         return '⚡';
+      case 'b2bTemplate':
+        return '🏢';
       default:
         return '📄';
     }
@@ -66,7 +74,7 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
           <div className="flex items-center">
             <span className="mr-2">{getTemplateIcon(currentTemplate)}</span>
             <span>
-              {formatTemplateName(currentTemplate)} Template
+              {formatTemplateName(currentTemplate)}
             </span>
           </div>
           <span className="ml-2">
@@ -106,7 +114,12 @@ function TemplateSelector({ currentTemplate, switchTemplate, resetTemplate }) {
             >
               <span className="mr-2">⚡</span> Dynamic
             </button>
-            
+            <button 
+              className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${currentTemplate === 'b2bTemplate' ? 'bg-blue-50 text-blue-700' : ''}`} 
+              onClick={() => handleTemplateSelect('b2bTemplate')}
+            >
+              <span className="mr-2">🏢</span> B2B Campaign
+            </button>
           </div>
         )}
       </div>

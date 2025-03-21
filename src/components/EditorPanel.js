@@ -8,6 +8,7 @@ import DynamicSettings from './DynamicSettings';
 import TemplateSelector from './TemplateSelector';
 import { AspectRatioSelector } from './AspectRatioSelector';
 import TemplateStyleManager from './TemplateStyleManager';
+import B2BSettings from './B2BSettings';
 
 function EditorPanel({ 
   settings, 
@@ -171,6 +172,16 @@ function EditorPanel({
           
           {currentTemplate === 'dynamic' && (
             <DynamicSettings 
+              settings={settings}
+              handleInputChange={handleInputChange}
+              handleImageUpload={handleImageUpload}
+              handleRemoveImage={handleRemoveImage}
+              updateSettings={updateSettings}
+            />
+          )}
+
+          {currentTemplate === 'b2bTemplate' && (
+            <B2BSettings 
               settings={settings}
               handleInputChange={handleInputChange}
               handleImageUpload={handleImageUpload}

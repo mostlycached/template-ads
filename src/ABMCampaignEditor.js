@@ -5,6 +5,9 @@ import PreviewPanel from './components/PreviewPanel';
 import templatePresets from './components/templatePresets';
 import { ASPECT_RATIOS } from './components/AspectRatioSelector';
 import RemotionRenderer from './components/RemotionRenderer';
+import B2BTemplate from './components/B2BTemplate';
+import B2BSettings from './components/B2BSettings';
+import { b2bTemplatePresets } from './components/B2BTemplatePresets';
 
 // Default color palette to use if template doesn't have one
 const DEFAULT_COLOR_PALETTE = {
@@ -43,7 +46,31 @@ function ABMCampaignEditor() {
   }
 
   function switchTemplate(templateName) {
-    if (templatePresets[templateName]) {
+    if (templateName === 'b2bTemplate') {
+      // Get the default B2B template preset (product demo by default)
+      const newSettings = { ...b2bTemplatePresets.productDemo };
+      
+      // Apply common settings
+      const commonSettings = {
+        companyName: templateSettings.companyName,
+        aspectRatio: templateSettings.aspectRatio,
+        ownerAccountImage: templateSettings.ownerAccountImage,
+        primaryFont: templateSettings.primaryFont,
+        secondaryFont: templateSettings.secondaryFont
+      };
+      
+      // Apply common settings
+      Object.keys(commonSettings).forEach(key => {
+        if (commonSettings[key] !== undefined) {
+          newSettings[key] = commonSettings[key];
+        }
+      });
+      
+      setCurrentTemplate(templateName);
+      setTemplateSettings(newSettings);
+    } else if (templatePresets[templateName]) {
+      // Rest of the existing code for other templates
+      // ...
       // Save common settings to preserve
       const commonSettings = {
         companyName: templateSettings.companyName,
